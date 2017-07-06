@@ -7,6 +7,7 @@ using System.Data.OleDb;
 using System.Globalization;
 using OpenQA.Selenium;
 using System.Drawing.Imaging;
+using System.Configuration;
 
 namespace MyApps
 {
@@ -14,6 +15,9 @@ namespace MyApps
     public class MyApps
 
     {
+        public static string siteUrl = ConfigurationManager.AppSettings["SiteUrl"];
+        public static string username = ConfigurationManager.AppSettings["UserName"];
+        public static string password = ConfigurationManager.AppSettings["Password"];
         //test 2
         ChromeDriver driver = new ChromeDriver("F:\\Chromedriver");
 
@@ -23,78 +27,27 @@ namespace MyApps
             using (DataTable dtTemp = ExcelToDataTable("C:\\Users\\SayaliShitole\\Documents\\Visual Studio 2015\\Projects\\MyApps1.xlsx"))
 
             {
-                foreach (DataRow dRow in dtTemp.Rows)
-                {
+                
+                
+                 driver.Navigate().GoToUrl(siteUrl);
 
-                    //var url = dRow["Url"].ToString();
-                    var Username = dRow["Username"].ToString();
-                    var Password = dRow["Password"].ToString();
-                    //var Title = dRow["Title"].ToString();
-                    //var AppUrl = dRow["AppUrl"].ToString();
-                    //var AppIcon = dRow["AppIcon"].ToString();
-                    var newformUrl = dRow["newformUrl"].ToString();
-
-
-                    //var popup = driver.WindowHandles[1];
-
-                    driver.Navigate().GoToUrl(newformUrl);
-
-
-                    //var ss = driver.GetScreenshot();
-                    //ss.SaveAsFile("f:\\google"as , System.Drawing.Imaging.ImageFormat.Png);
-
-                    var UserName = driver.FindElement(By.XPath("//*[@id='cred_userid_inputtext']"));
-                    //Below code will enter the password for the given user from excel.
-                    var PassWord = driver.FindElement(By.XPath("//*[@id='cred_password_inputtext']"));
-                    UserName.SendKeys(Username);
-                    PassWord.SendKeys(Password);
+                    driver.FindElement(By.XPath("//*[@id='cred_userid_inputtext']")).SendKeys(username);
+                    driver.FindElement(By.XPath("//*[@id='cred_password_inputtext']")).SendKeys(password);
                     Thread.Sleep(2000);
-                    //Click on signin button
-                    //  var MFA = driver.FindElement(By.XPath("//*[@id='aad_account_tile']"));
-                    //MFA.Click();
-
-                    var LoginButton = driver.FindElement(By.XPath("//*[@id='cred_sign_in_button']"));
-                    LoginButton.Click();
-                    // Thread.Sleep(20000);
+                    driver.FindElement(By.XPath("//*[@id='cred_sign_in_button']")).Click();
                     Thread.Sleep(TimeSpan.FromSeconds(5));
-                    //  var Managemyapps = driver.FindElement(By.XPath("//button[@class='btn btn-default']"));
-                    //Thread.Sleep(6000);
-                    //Managemyapps.Click();
-                    //Thread.Sleep(6000);
-                    //var Administrator = driver.FindElementByCssSelector(".btn btn-info ng-binding");
-                    // var Administrator = driver.FindElement(By.LinkText("My Apps Administration"));
-                    // var Savebutton = driver.FindElementsByCssSelector("input[id$=Default]")[0];
-                    // driver.SwitchTo().Frame(0);
+                    
 
-                    //Thread.Sleep(6000);
-                    //Administrator.Click();
-                    //Thread.Sleep(3000);
-                    //    Thread.Sleep(6000);
-                    //Assert.IsTrue(!string.IsNullOrEmpty(popup));
-                    //Assert.AreEqual(driver.SwitchTo().Window(popup).Url, "https://instantintranet.sharepoint.com/sites/start/Lists/MyAppsGenNL/NewForm.aspx?Source=https%3A%2F%2Finstantintranet%2Esharepoint%2Ecom%2Fsites%2Fstart%2FLists%2FMyAppsGenNL%2FAllItems%2Easpx&ContentTypeId=0x0100014263E85C04C84D91E5796D847E3FB40030C1ACF46A0CDF4AA772E2D39395DBE7&RootFolder=");
-                    //var NewItem = driver.FindElement(By.LinkText("CommandBarItem-link"));
-                    //NewItem.Click();
-                    // var AppCt = driver.FindElement(By.XPath("//*[@id='appRoot']/div/div[8]/div[2]/div/div/div[2]/div[1]/a"));
+                    
 
-
-
-                    // driver.Navigate().GoToUrl(newformUrl);
-
-                    //Thread.Sleep(2000);
-
-
-
-
-                    //for (int i = 0; i <= dtTemp.Rows.Count; i++)
-                    //{
-                    foreach (DataRow dRow1 in dtTemp.Rows)
+                   foreach (DataRow dRow1 in dtTemp.Rows)
                     {
 
                         var url = dRow1["Url"].ToString();
                         var Title = dRow1["Title"].ToString();
                         var AppUrl = dRow1["AppUrl"].ToString();
                         var AppIcon = dRow1["AppIcon"].ToString();
-                        var newformUrl1 = dRow["newformUrl"].ToString();
+                        var newformUrl1 = dRow1["newformUrl"].ToString();
                       
                         var Addtitle = driver.FindElementByCssSelector("input[class$=TextField-field]");
                         //var Addtitle = driver.FindElement(By.XPath("body/script/styl/div data-bind/div id /div class / div class/ div class /div class /div class /div class /div class /nav class/div class /div class /div class /div class /label class /div data-bind/div class /div class /input[@value='od-TextEditor-input ms-TextField-field']"));
@@ -124,30 +77,7 @@ namespace MyApps
                     Newbtn.Click();
                     var Appct = driver.FindElement(By.XPath("//*[@id='appRoot']/div/div[5]/div/div[1]/div/div/div[2]/div[1]/a/i"));
                     Appct.Click();
-
-
-                    // var newtab1 =driver.FindElement("By.CssSelector('body')).SendKeys(Keys.CONTROL + "\t"");
-
-                ////Commented by Shrikant
-                    //var Addtitle1 = driver.FindElementByCssSelector("input[class$=TextField-field]");
-                    ////var Addtitle = driver.FindElement(By.XPath("body/script/styl/div data-bind/div id /div class / div class/ div class /div class /div class /div class /div class /nav class/div class /div class /div class /div class /label class /div data-bind/div class /div class /input[@value='od-TextEditor-input ms-TextField-field']"));
-                    //Addtitle1.SendKeys(Title);
-
-                    //var AddappUrl1 = driver.FindElement(By.XPath("//input[@placeholder='Enter a URL']"));
-                    //// var AddappUrl = driver.FindElement(By.LinkText("Enter a URL"));
-                    //AddappUrl1.SendKeys(AppUrl);
-
-                    //var savebutton1 = driver.FindElement(By.XPath("//*[@id='appRoot']/div/div[2]/div[3]/div[2]/div[1]/div/div/div/div[2]/button[1]"));
-                    //savebutton1.Click();
-
-
-
-                    //var newitem = driver.FindElement(By.XPath("//span[@class='od-IconGlyph ms-Icon ms-Icon--Add od-IconGlyph--visible']/class[2]"));
-                    //newitem.Click();
-                    //var Addappicon = driver.FindElement(By.XPath("//div[@class='od-TextEditor-input ms-TextField-field']"));
-                    //Addtitle.SendKeys(AppIcon);
-                    //}
-                }
+              
             }
         }
         public static DataTable ExcelToDataTable(string filePath)

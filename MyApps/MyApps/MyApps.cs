@@ -14,7 +14,7 @@ namespace MyApps
     public class MyApps
 
     {
-        //test
+        //test 2
         ChromeDriver driver = new ChromeDriver("F:\\Chromedriver");
 
         [TestMethod]
